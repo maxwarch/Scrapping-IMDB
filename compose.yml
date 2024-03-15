@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  mongo:
+    container_name: mongo
+    #image: mongo
+    restart: always
+    build: ./mongo
+    env_file:
+      - ./scrap/.env
+    ports:
+      - 27017:27017
+    volumes:
+      - ./mongo/datadb:/data/db
+  scrap:
+    container_name: scrap
+    # image: 
+    build: ./scrap
+    command: python -m http.server 8000
+    volumes:
+      - ./scrap:/home/app
+    ports:
+      - 8000:8000
