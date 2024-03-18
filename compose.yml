@@ -6,7 +6,7 @@ services:
     restart: always
     build: ./mongo
     env_file:
-      - ./scrap/.env
+      - ./.env
     ports:
       - 27017:27017
     volumes:

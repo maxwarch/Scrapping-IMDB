@@ -16,6 +16,7 @@ FROM mongo
 # USER app
 
 COPY entrypoint.js /docker-entrypoint-initdb.d
+
 #RUN chmod +x entrypoint.sh
 
 #ENTRYPOINT ./entrypoint.sh

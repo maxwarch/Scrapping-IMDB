@@ -1,11 +1,11 @@
-use("films_database")
-db.createCollection("films");
+use("DB")
+db.createCollection("films")
 
 db.createUser({
-  user: "",
-  pwd: "",
+  user: "USER",
+  pwd: "PWD",
   roles: [{
     role: "readWrite",
-    db: "films_database"
+    db: "DB"
   }]
 })
