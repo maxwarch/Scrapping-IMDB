@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "ts-node main.ts"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +21,7 @@
     "eslint-plugin-jsonc": "^2.14.1",
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-unused-imports": "^3.1.0",
+    "ts-node": "^10.9.2",
     "typescript": "^5.4.2"
   }
 }

@@ -164,3 +164,4 @@ postgres-data
 deploy-aci.yaml
 api/secrets/service-account.json
 .bash_history
+pptr/cookie.json

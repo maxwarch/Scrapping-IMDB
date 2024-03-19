@@ -1,53 +1,29 @@
 {
 	"compilerOptions": {
-		"paths": {
-			"@/*": [
-				"./src/*"
-			],
-			"@tests/*": [
-				"./tests/*"
-			]
-		},
 		"types": [
-			"vitest/globals",
 			"@testing-library/jest-dom",
-			"vite/client",
 			"node"
 		],
 		"target": "ESNext",
 		"useDefineForClassFields": true,
-		"module": "ESNext",
-		"moduleResolution": "Node10",
-		"strict": true,
-		"jsx": "preserve",
+		"module": "commonjs",
+		"strict": false,
 		"sourceMap": true,
 		"resolveJsonModule": true,
 		"isolatedModules": true,
 		"esModuleInterop": true,
 		"noUnusedLocals": true,
 		"lib": [
-			"ESNext",
-			"DOM",
-			"DOM.Iterable"
+			"ESNext"
 		],
 		"skipLibCheck": true
 	},
 	"include": [
-		"src/**/*.ts",
-		"src/**/*.tsx",
-		"src/**/*.vue",
-		"dts/components.d.ts",
-		"dts/global.d.ts",
-		"dts/Reg/**/*.d.ts",
-		"tests/unit/setupDB.ts"
+		"*.ts",
+		"**/*.ts"
 	],
 	"exclude": [
 		"node_modules",
 		".vscode"
 	],
-	"references": [
-		{
-			"path": "./tsconfig.node.json"
-		}
-	]
 }
