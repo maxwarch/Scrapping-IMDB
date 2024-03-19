@@ -1,9 +1,5 @@
-import html
-import json
-import isodate
-
 import scrapy
-
+from scrapy.http import Response
 from imdb.items import ImdbItem
 
 BASE_URL = "https://www.imdb.com"
@@ -20,7 +16,7 @@ class Top250MoviesSpider(scrapy.Spider):
         for url in urls:
             yield scrapy.Request(url=url, callback=self.parse)
 
-    def parse(self, response):
+    def parse(self, response: Response):
         item = ImdbItem()
         for href in response.xpath(
             "//ul/li/descendant::a[boolean(@aria-label) and contains(@href, 'title')]/@href"
