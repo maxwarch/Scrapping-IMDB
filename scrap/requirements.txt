@@ -2,3 +2,4 @@ pymongo[srv]
 scrapy
 python-dotenv
 isodate
+xmltodict

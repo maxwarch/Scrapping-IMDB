@@ -28,5 +28,10 @@ class ImdbPipeline:
 
     def process_item(self, item: ImdbItem, spider):
         item["duration"] = item["duration"].total_seconds()
-        self.films.insert_one(ItemAdapter(item).asdict())
+
+        json = ItemAdapter(item).asdict()
+
+        self.films.update_one(
+            filter={"_id": json["_id"]}, upsert=True, update={"$set": json}
+        )
         return item
