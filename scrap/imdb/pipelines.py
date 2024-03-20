@@ -17,7 +17,6 @@ class ImdbPipeline:
         self.client = connect_db()
 
     def open_spider(self, spider):
-        # self.client = connect_db()
         # print('********* open_spider')
         db = self.client[get_env("FILM_DB")]
         self.films = db["films"]

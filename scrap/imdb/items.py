@@ -22,6 +22,7 @@ class ImdbItem(Item):
     public = Field()
     locale = Field()
     origin = Field()
+    keywords = Field()
 
     def parse(self, response):
         locale = html.unescape(
@@ -98,18 +99,25 @@ class ImdbItem(Item):
             except KeyError:
                 origin = ""
 
+            try:
+                key = data["keywords"].split(",")
+                keywords = [html.unescape(k) for k in key]
+            except KeyError:
+                keywords = ""
+
             self["_id"] = data["url"]
             self["title"] = html.unescape(title)
             self["orginalTitle"] = html.unescape(data["name"])
             self["rating"] = rating
-            self["genre"] = genre
+            self["genre"] = html.unescape(genre)
             self["publish"] = publish
             self["duration"] = isodate.parse_duration(duration)
-            self["description"] = description
+            self["description"] = html.unescape(description)
             self["casting"] = actor
             self["public"] = html.unescape(public)
             self["locale"] = locale
             self["origin"] = origin
+            self["keywords"] = keywords
 
             yield self
 
