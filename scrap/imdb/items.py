@@ -7,10 +7,12 @@ from scrapy.item import Item, Field
 import html
 import json
 import isodate
+from timelength import TimeLength
 
 
 class ImdbItem(Item):
     _id = Field()
+    type = Field()
     title = Field()
     orginalTitle = Field()
     rating = Field()
@@ -23,6 +25,8 @@ class ImdbItem(Item):
     locale = Field()
     origin = Field()
     keywords = Field()
+    episodes = Field()
+    saisons = Field()
 
     def parse(self, response):
         locale = html.unescape(
@@ -36,10 +40,42 @@ class ImdbItem(Item):
             ).extract()
         )
 
+        duration = None
         data = response.xpath('//script[@type="application/ld+json"]/text()').extract()
         data = json.loads(data[0])
-        if data["@type"] == "Movie":
-            print(data["name"])
+        type = data["@type"]
+
+        if type == "Movie" or type == "TVSeries":
+            episodes = 0
+            saisons = 0
+            if type == "TVSeries":
+                ## episodes
+                episodes = response.xpath(
+                    '//section[@data-testid="Episodes"]/div/a/h3/span[@class="ipc-title__subtext"]/text()'
+                ).extract()
+                episodes = episodes[0] if len(episodes) >= 1 else 0
+
+                ## saisons
+                saisons = response.xpath(
+                    '//div[@data-testid="episodes-browse-episodes"]/child::div[2]/child::a/span[contains(text(), "son")]/text()'
+                ).extract()
+                print(saisons)
+                if len(saisons) == 0:
+                    saisons = response.xpath(
+                        '//select[@id="browse-episodes-season"]/child::option[2]/text()'
+                    ).extract()
+                    saisons = saisons[0] if len(saisons) >= 1 else 0
+                else:
+                    saisons = saisons[0].split(" ")[0] if len(saisons) >= 1 else 0
+
+                ## duration
+                duration = response.xpath(
+                    '//*[@data-testid="hero__pageTitle"]/following::ul/child::li[last()]/text()'
+                ).extract()
+                # print(duration)
+                duration = (
+                    TimeLength(duration[0]).to_seconds() if len(duration) >= 1 else None
+                )
 
             try:
                 title = data["alternateName"]
@@ -62,9 +98,12 @@ class ImdbItem(Item):
                 publish = ""
 
             try:
-                duration = data["duration"]
+                if duration is None:
+                    dur = data["duration"]
+                    duration = isodate.parse_duration(dur).total_seconds()
             except KeyError:
-                duration = "PT0H0M"
+                if duration is None:
+                    duration = 0
 
             try:
                 description = data["description"]
@@ -106,18 +145,23 @@ class ImdbItem(Item):
                 keywords = ""
 
             self["_id"] = data["url"]
+            self["type"] = type
             self["title"] = html.unescape(title)
             self["orginalTitle"] = html.unescape(data["name"])
             self["rating"] = rating
             self["genre"] = html.unescape(genre)
             self["publish"] = publish
-            self["duration"] = isodate.parse_duration(duration)
+            self["duration"] = duration
             self["description"] = html.unescape(description)
             self["casting"] = actor
             self["public"] = html.unescape(public)
             self["locale"] = locale
             self["origin"] = origin
             self["keywords"] = keywords
+            self["episodes"] = int(episodes)
+            self["saisons"] = int(saisons)
+
+            print(self["title"])
 
             yield self
 
