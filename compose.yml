@@ -16,7 +16,7 @@ services:
     # image: 
     build: ./scrap
     env_file:
-      - ./.env_az
+      #- ./.env_az
       - ./.env
     command: python -m http.server 8000
     volumes:

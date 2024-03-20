@@ -17,11 +17,10 @@ def connect_db():
             password=get_env("FILM_PWD"),
             authSource=get_env("FILM_DB"),
         )
-    print(connection_string, client.HOST)
+
     # Send a ping to confirm a successful connection
     try:
         client.admin.command("ping")
-        print("ping")
         return client
     except Exception as e:
         print(e)

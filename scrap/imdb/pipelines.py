@@ -26,8 +26,6 @@ class ImdbPipeline:
         self.client.close()
 
     def process_item(self, item: ImdbItem, spider):
-        item["duration"] = item["duration"].total_seconds()
-
         json = ItemAdapter(item).asdict()
 
         self.films.update_one(
