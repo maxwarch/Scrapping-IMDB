@@ -59,7 +59,7 @@ class ImdbItem(Item):
                 saisons = response.xpath(
                     '//div[@data-testid="episodes-browse-episodes"]/child::div[2]/child::a/span[contains(text(), "son")]/text()'
                 ).extract()
-                print(saisons)
+
                 if len(saisons) == 0:
                     saisons = response.xpath(
                         '//select[@id="browse-episodes-season"]/child::option[2]/text()'
