@@ -4,12 +4,18 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node main.ts --emit"
+    "start": "ts-node main.ts --emit",
+    "test": "ts-node test.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dayjs": "^1.11.10",
+    "dotenv": "^16.4.5",
+    "html-entities": "^2.5.2",
+    "mongoose": "^8.2.2",
+    "parse-duration": "^1.1.0",
     "puppeteer": "^22.5.0"
   },
   "devDependencies": {
